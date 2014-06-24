@@ -8,14 +8,15 @@ function subtractColumns($colClassIncome, $colClassExpense){
 	// Find total income
 	$totalIncome = 0;
 	$incomeList.find($colClassIncome).each(function(){
-		$currentPrice = $(this).html().substring(1, $(this).html().length);
+		$currentPrice = $(this).val().substring(1, $(this).val().length);
+		console.log($currentPrice);
 		$totalIncome += parseFloat($currentPrice);
 	});
 
 	// Find total expenses
 	$totalExpense = 0;
 	$expenseList.find($colClassExpense).each(function(){
-		$currentPrice = $(this).html().substring(1, $(this).html().length);
+		$currentPrice = $(this).val().substring(1, $(this).val().length);
 		$totalExpense += parseFloat($currentPrice);
 	});
 
