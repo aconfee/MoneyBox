@@ -12,7 +12,13 @@ function openEditBox($listAddButton){
 	$addType = $listAddButton.attr('name');
 
 	// Define templates for creation
-	$editBoxTemplate = '<div class="listItem editBox" name="' + $addType + '">NEW ITEM<input type="text" value="Title" name="newTitle"><input type="text" value="$0.00" name="lowEndAmount"><input type="text" value="$0.00" name="highEndAmount"></div>'
+	$editBoxTemplate = '<div class="listItem editBox" name="' + $addType + '">' +	
+						'<h1>NEW ITEM</h1>' + 
+						   	'<input type="text" class="editTitle" value="Title" name="newTitle">' +
+							'<input type="text" class="editMoney" value="$ Low" name="lowEndAmount">' +
+							'<input type="text" class="editMoney" value="$ High" name="highEndAmount">' +
+						'</div>';
+
 	$doneButtonTemplate = '<div id="doneEditing">SAVE</div>';
 
 	// Create the edit box
@@ -48,7 +54,15 @@ function addItem(){
 	$highEndAmount = $('input[name=highEndAmount]').val();
 
 	// Create the list item
-	$editBox.before('<div class="listItem">' + $title + '<p class="lowAmount">' + $lowEndAmount + '</p><p class="highAmount">' + $highEndAmount + '</p></div>');
+	$listItemTemplate = '<div class="listItem">' + 
+							'<div class="displayTitle">' + $title + '</div>' +
+							'<img class="deleteButton" src="../resources/delete.png"></img>' + 
+							'<br/><br/>' + 
+							'<input class="lowAmount editMoney" value="' + $lowEndAmount + '">' + 
+							'<input class="highAmount editMoney" value="' + $highEndAmount + '">' +
+						'</div>';
+
+	$editBox.before($listItemTemplate);
 
 	// Close
 	closeEditBox();
@@ -57,12 +71,41 @@ function addItem(){
 	refreshIncome();
 };
 
-function lowestIncome(){
-	return subtractColumns('.lowAmount', '.highAmount');
+function editItem(){
+	$originalHeight = '25px';
+
+	// If we are not the edit box
+	if($(this).hasClass('editBox') === false){
+
+		// Close any open edit box
+		if($('.editBox')){
+			closeEditBox();
+		}
+
+		if($(this).css('height') === $originalHeight){
+			// Close all other list items
+			$(document).find('.listItem').each(function(){
+				$(this).css('height', $originalHeight);
+				$title = $(this).find('.editTitle').val();
+				$(this).find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
+			});
+
+			// Open this item
+			$(this).css('height', 'auto');
+			$title = $(this).find('.displayTitle').html();
+			$(this).find('.displayTitle').replaceWith('<input class="editTitle" value="' + $title + '">');
+			$('.editTitle').focus();
+		}
+		else{
+			$(this).css('height', $originalHeight);
+			$title = $(this).find('.editTitle').val();
+			$(this).find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
+		}
+	}
 };
 
-function highestIncome(){
-	return subtractColumns('.highAmount', '.lowAmount');
+function deleteItem(){
+	$(this).parent().remove();
 };
 
 function refreshIncome(){
@@ -70,5 +113,5 @@ function refreshIncome(){
 	$bestIncome = highestIncome();
 
 	$centerDisplay = $('.centerDisplay');
-	$centerDisplay.html('Worst: $' + $worstIncome.toString() + 'Best: $' + $bestIncome);
+	$centerDisplay.html('Worst: $' + $worstIncome.toString() + ' Best: $' + $bestIncome);
 };

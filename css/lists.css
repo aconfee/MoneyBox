@@ -6,7 +6,7 @@
 	height:auto;
 	width:300px;
 
-	margin:20px 20px 20px 20px;
+	margin:20px;
 	border:0;
 	padding:0;
 }
@@ -19,24 +19,9 @@
 	height:30px;
 	width:90%;
 
-	margin:10px auto;
+	margin:0px auto;
 	border:0;
-	padding:0;
-}
-
-.listItem p{
-	height:auto;
-	width:80%;
-
-	color:green;
-
-	display:inline-block;
-
-	text-align:right;
-
-	margin:-3px 0 0 auto;
-	border:0;
-	padding:0;
+	padding:20px 0 0 0;
 }
 
 #incomes{
@@ -45,6 +30,7 @@
 
 #expenses{
 	float:right;
+	margin:-139px 20px 0 0;
 }
 
 

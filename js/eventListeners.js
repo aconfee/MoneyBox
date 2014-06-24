@@ -17,4 +17,22 @@ function toggleEditBoxListener(){
 	$addExpense.click(function(){
 		toggleEditBox($(this));
 	});
+};
+
+function editItemListener(){
+	// Expand the list item to edit its info on click. 
+	$(document).on('click', '.listItem', editItem);
+};
+
+function deleteItemListener(){
+	// Delete a list item
+	$(document).on('click', '.deleteButton', deleteItem);
+
+	$(document).on('mouseover', '.deleteButton', function(){
+		$(this).attr('src', '../resources/deleteHover.png');
+	});
+
+	$(document).on('mouseout', '.deleteButton', function(){
+		$(this).attr('src', '../resources/delete.png');
+	});
 }
