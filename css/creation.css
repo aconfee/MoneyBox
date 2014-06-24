@@ -43,6 +43,18 @@
 	padding:0;
 }
 
+.acceptButton{
+	width:25px;
+	height:25px;
+
+	display:inline-block;
+	float:right;
+
+	margin:0;
+	border:0;
+	padding:0;
+}
+
 .editBox{
 	background-color: white;
 

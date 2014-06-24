@@ -21,7 +21,7 @@ function toggleEditBoxListener(){
 
 function editItemListener(){
 	// Expand the list item to edit its info on click. 
-	$(document).on('click', '.listItem', editItem);
+	$(document).on('click', '.displayTitle', editItem);
 };
 
 function deleteItemListener(){
@@ -34,5 +34,18 @@ function deleteItemListener(){
 
 	$(document).on('mouseout', '.deleteButton', function(){
 		$(this).attr('src', '../resources/delete.png');
+	});
+}
+
+function acceptItemListener(){
+	// Delete a list item
+	$(document).on('click', '.acceptButton', closeOpenItem);
+
+	$(document).on('mouseover', '.acceptButton', function(){
+		$(this).attr('src', '../resources/acceptHover.png');
+	});
+
+	$(document).on('mouseout', '.acceptButton', function(){
+		$(this).attr('src', '../resources/accept.png');
 	});
 }

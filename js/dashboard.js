@@ -8,6 +8,8 @@ function closeEditBox(){
 }
 
 function openEditBox($listAddButton){
+	closeOpenItem();
+	
 	// Add type allows us to know which column is being edited
 	$addType = $listAddButton.attr('name');
 
@@ -60,6 +62,7 @@ function addItem(){
 							'<br/><br/>' + 
 							'<input class="lowAmount editMoney" value="' + $lowEndAmount + '">' + 
 							'<input class="highAmount editMoney" value="' + $highEndAmount + '">' +
+							'<img class="acceptButton" src="../resources/accept.png"></img>' + 
 						'</div>';
 
 	$editBox.before($listItemTemplate);
@@ -71,35 +74,38 @@ function addItem(){
 	refreshIncome();
 };
 
+function closeOpenItem(){
+	if($('.editTitle') !== null){
+		$openItem = $('.editTitle').parent();
+		$openItem.css('height', '25px');
+		$title = $openItem.find('.editTitle').val();
+		console.log($title);
+		$openItem.find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
+	}
+}
+
 function editItem(){
 	$originalHeight = '25px';
+	$listItem = $(this).parent();
+	$displayTitle = $(this);
 
 	// If we are not the edit box
-	if($(this).hasClass('editBox') === false){
+	if($listItem.hasClass('editBox') === false){
 
 		// Close any open edit box
 		if($('.editBox')){
 			closeEditBox();
 		}
 
-		if($(this).css('height') === $originalHeight){
+		if($listItem.css('height') === $originalHeight){
 			// Close all other list items
-			$(document).find('.listItem').each(function(){
-				$(this).css('height', $originalHeight);
-				$title = $(this).find('.editTitle').val();
-				$(this).find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
-			});
+			closeOpenItem();
 
 			// Open this item
-			$(this).css('height', 'auto');
-			$title = $(this).find('.displayTitle').html();
-			$(this).find('.displayTitle').replaceWith('<input class="editTitle" value="' + $title + '">');
+			$listItem.css('height', 'auto');
+			$title = $displayTitle.html();
+			$displayTitle.replaceWith('<input class="editTitle" value="' + $title + '">');
 			$('.editTitle').focus();
-		}
-		else{
-			$(this).css('height', $originalHeight);
-			$title = $(this).find('.editTitle').val();
-			$(this).find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
 		}
 	}
 };

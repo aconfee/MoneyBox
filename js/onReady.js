@@ -4,6 +4,7 @@ $(document).ready(function(){
 	refreshIncome();
 	toggleEditBoxListener();
 	saveListItemListener();
-	deleteItemListener();
 	editItemListener();
+	deleteItemListener();
+	acceptItemListener();
 });
