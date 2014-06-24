@@ -2,7 +2,7 @@
 
 function saveListItemListener(){
 	// Add the new list item when 'DONE' is clicked
-	$(document).on('click', '#doneEditing', addItem);
+	$(document).on('click', '#doneEditing', saveItem);
 };
 
 function toggleEditBoxListener(){

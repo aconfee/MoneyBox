@@ -39,6 +39,7 @@ function toggleEditBox($listAddButton){
 			closeEditBox();
 		}
 		openEditBox($listAddButton);
+		$('.editTitle').focus();
 	}
 	// If ours was already open, close (cancel) it.
 	else{
@@ -46,7 +47,7 @@ function toggleEditBox($listAddButton){
 	}
 }
 
-function addItem(){
+function saveItem(){
 	// Edit box with new info
 	$editBox = $('.editBox');
 
@@ -77,7 +78,15 @@ function addItem(){
 function closeOpenItem(){
 	if($('.editTitle').length > 0){
 		$openItem = $('.editTitle').parent();
-		$openItem.css('height', '25px');
+		$openItem.animate({height: '25px'}, 200);
+
+		if($openItem.parent().attr('id') === 'incomes'){
+			$openItem.animate({'margin-left': '20px'}, 200);
+		}
+		else{
+			$openItem.animate({'margin-right': '20px'}, 200);
+		}
+
 		$title = $openItem.find('.editTitle').val();
 		$openItem.find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
 	}
@@ -101,7 +110,15 @@ function editItem(){
 			closeOpenItem();
 
 			// Open this item
-			$listItem.css('height', 'auto');
+			$listItem.animate({height: '90px'}, 200);
+
+			if($listItem.parent().attr('id') === 'incomes'){
+				$listItem.animate({'margin-left': '100px'}, 200);
+			}
+			else{
+				$listItem.animate({'margin-right': '100px'}, 200);
+			}
+
 			$title = $displayTitle.html();
 			$displayTitle.replaceWith('<input class="editTitle" value="' + $title + '">');
 			$('.editTitle').focus();
@@ -111,6 +128,7 @@ function editItem(){
 
 function deleteItem(){
 	$(this).parent().remove();
+	refreshIncome();
 };
 
 function refreshIncome(){
