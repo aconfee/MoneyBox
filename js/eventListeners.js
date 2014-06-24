@@ -39,7 +39,10 @@ function deleteItemListener(){
 
 function acceptItemListener(){
 	// Delete a list item
-	$(document).on('click', '.acceptButton', closeOpenItem);
+	$(document).on('click', '.acceptButton', function(){
+		closeOpenItem();
+		refreshIncome();
+	});
 
 	$(document).on('mouseover', '.acceptButton', function(){
 		$(this).attr('src', '../resources/acceptHover.png');

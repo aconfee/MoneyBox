@@ -9,7 +9,7 @@ function closeEditBox(){
 
 function openEditBox($listAddButton){
 	closeOpenItem();
-	
+
 	// Add type allows us to know which column is being edited
 	$addType = $listAddButton.attr('name');
 
@@ -75,11 +75,10 @@ function addItem(){
 };
 
 function closeOpenItem(){
-	if($('.editTitle') !== null){
+	if($('.editTitle').length > 0){
 		$openItem = $('.editTitle').parent();
 		$openItem.css('height', '25px');
 		$title = $openItem.find('.editTitle').val();
-		console.log($title);
 		$openItem.find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
 	}
 }
