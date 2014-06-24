@@ -1,0 +1,75 @@
+.listItem{
+	background-color:white;
+
+	height:30px;
+	width:80%;
+
+	box-shadow: 2px 2px 5px #888888;
+	border-radius: 5px;
+
+
+	margin:5px auto 0 auto;
+	border:0;
+	padding:5px 10px;
+}
+
+.editBox{
+	background-color: white;
+
+	font-weight:bold;
+	color:#505151;
+
+	height:auto;
+
+	margin:20px auto 10px auto;
+}
+
+.editBox input{
+	width:100%;
+}
+
+.editing{
+
+}
+
+.addItem{
+	background-color:#dedede;
+
+	height:30px;
+	width:45%;
+
+	font-weight:bold;
+	color:#858784;
+
+	display: inline-block;
+
+	margin:20px 0 10px 10px;
+	border:0;
+	padding:0;
+}
+
+.addItem:hover{
+	cursor:pointer;
+	color:#01a4c3;
+}
+
+#doneEditing{
+	background-color:#dedede;
+
+	height:30px;
+	width:20%;
+
+	font-weight:bold;
+	color:#858784;
+
+	display: inline-block;
+
+	margin:10px 0 10px 0;
+	border:0;
+	padding:0 0 0 30%;
+}
+
+#doneEditing:hover{
+	cursor:pointer;
+	color:#01a4c3;
+}
