@@ -12,7 +12,7 @@ function total($columnClass, $listId){
 }
 
 function median($list){
-	return total('lowAmount', '#incomes') + (total('.highAmount', '#incomes') - total('lowAmount', '#incomes'));
+	return total('.lowAmount', $list) + ((total('.highAmount', $list) - total('.lowAmount', $list)) / 2);
 }
 
 function lowestIncome(){

@@ -132,9 +132,13 @@ function deleteItem(){
 };
 
 function refreshIncome(){
+	$('#incomeTotal').html('$' + median('#incomes').toString());
+	$('#expenseTotal').html('$' + median('#expenses').toString());
+
 	$worstIncome = lowestIncome();
 	$bestIncome = highestIncome();
 
 	$centerDisplay = $('.centerDisplay');
-	$centerDisplay.html('Worst: $' + $worstIncome.toString() + ' Best: $' + $bestIncome);
+	//$centerDisplay.html('Worst: $' + $worstIncome.toString() + ' Best: $' + $bestIncome);
+	$centerDisplay.html('$' + $worstIncome.toString());
 };
