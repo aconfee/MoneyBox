@@ -64,6 +64,15 @@
 	height:auto;
 
 	margin:20px auto 10px auto;
+
+	width:80%;
+
+	box-shadow: 2px 2px 5px #888888;
+	border-radius: 5px;
+	overflow:hidden;
+
+	border:0;
+	padding:10px 10px 5px 10px;
 }
 
 .editBox h1{
@@ -109,7 +118,7 @@ input{
 	padding:2px;
 }
 
-.addItem{
+.addButton{
 	background-color:#dedede;
 
 	height:30px;
@@ -125,12 +134,33 @@ input{
 	padding:0;
 }
 
-.addItem:hover{
+.addButton:hover{
 	cursor:pointer;
 	color:#01a4c3;
 }
 
-#doneEditing{
+.cancelButton{
+	background-color:#dedede;
+
+	height:30px;
+	width:45%;
+
+	font-weight:bold;
+	color:#858784;
+
+	display: none;
+
+	margin:20px 0 10px 10px;
+	border:0;
+	padding:0;
+}
+
+.cancelButton:hover{
+	cursor:pointer;
+	color:#01a4c3;
+}
+
+.saveButton{
 	background-color:#dedede;
 
 	height:30px;
@@ -139,14 +169,14 @@ input{
 	font-weight:bold;
 	color:#858784;
 
-	display: inline-block;
+	display: none;
 
 	margin:10px 0 10px 0;
 	border:0;
 	padding:0 0 0 30%;
 }
 
-#doneEditing:hover{
+.saveButton:hover{
 	cursor:pointer;
 	color:#01a4c3;
 }
