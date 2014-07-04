@@ -69,13 +69,19 @@ function List(id){
 		return $element;
 	};
 
+	self.getId = function(){
+		return id;
+	};
+
 	self.newListItem = function(){
 		//closeOpenItem();
 
 		// Define templates for creation
+		// TEMPORARY having to specify display=inline block is bad. the edit box should be separate and the css needs 
+		// to be modularized. 
 		$editBoxTemplate = '<div class="editBox">' +	
 							'<h1>NEW ITEM</h1>' + 
-							   	'<input type="text" class="editTitle" value="Title" name="newTitle">' +
+							   	'<input type="text" class="editTitle" style="display:inline-block" value="Title" name="newTitle">' +
 								'<input type="text" class="editMoney" value="$ Low" name="lowEndAmount">' +
 								'<input type="text" class="editMoney" value="$ High" name="highEndAmount">' +
 							'</div>';
@@ -92,9 +98,9 @@ function List(id){
 		$editBox = $('.editBox');
 
 		// New info from the edit box
-		title = $('input[name=newTitle]').val();
-		low = $('input[name=lowEndAmount]').val();
-		high = $('input[name=highEndAmount]').val();
+		var title = $('input[name=newTitle]').val();
+		var low = $('input[name=lowEndAmount]').val();
+		var high = $('input[name=highEndAmount]').val();
 
 		// Create the list item
 		var newItem = new ListItem(self, listItems.length, $editBox, title, low, high);
@@ -118,24 +124,20 @@ function List(id){
 	this.deleteItem = function(index){
 		listItems.remove(index);
 	};
-
-	this.editListItem = function(){
-
-	};
 };
 
-function ListItem(listObject, index, $beforeElement, title, low, high){
+function ListItem(listObject, index, $beforeElement, listTitle, low, high){
 	var self = this;
 	var listIndex = index;
-	var $element = null;
-	var $deleteButton = null;
-	var $acceptButton = null;
+	var originalHeight = '25px'; // Used for animating.
+
 	var parentList = listObject;
-	var title = title;
+	var title = listTitle;
 	var lowAmount = low;
 	var highAmount = high;
 	var template = '<div class="listItem">' + 
 						'<div class="displayTitle">' + title + '</div>' +
+						'<input class="editTitle" value="' + title + '">' +
 						'<img class="deleteButton" src="../resources/delete.png"></img>' + 
 						'<br/><br/>' + 
 						'<input class="lowAmount editMoney" value="' + low + '">' + 
@@ -145,9 +147,13 @@ function ListItem(listObject, index, $beforeElement, title, low, high){
 
 	// Create html when initialized. 
 	$beforeElement.before(template);
-	$element = parentList.getElement().find('.listItem').last();
-	$deleteButton = $element.find('.deleteButton');
-	$acceptButton = $element.find('.acceptButton');
+
+	// Get the elements now that they exist on the DOM.
+	var $element = parentList.getElement().find('.listItem').last();
+	var $deleteButton = $element.find('.deleteButton');
+	var $acceptButton = $element.find('.acceptButton');
+	var $displayTitle = $element.find('.displayTitle');
+	var $editTitle = $element.find('.editTitle');
 
 	// Attach event
 	$deleteButton.click(function(){
@@ -162,7 +168,7 @@ function ListItem(listObject, index, $beforeElement, title, low, high){
 		$(this).attr('src', '../resources/delete.png');
 	});
 
-	$element.find('.displayTitle').click(function(){
+	$displayTitle.click(function(){
 		self.openItem();
 	});
 
@@ -186,52 +192,50 @@ function ListItem(listObject, index, $beforeElement, title, low, high){
 	};
 
 	self.closeItem = function(){
-		if($('.editTitle').length > 0){
-			$openItem = $('.editTitle').parent();
-			$openItem.animate({height: '25px'}, 200);
+		// If our edit box is open, we can close it.
+		if($editTitle){
+			$element.animate({height: originalHeight}, 200);
 
-			if($openItem.parent().attr('id') === 'incomes'){
-				$openItem.animate({'margin-left': '20px'}, 200);
+			if(parentList.getId() === '#incomes'){
+				$element.animate({'margin-left': '20px'}, 200);
 			}
 			else{
-				$openItem.animate({'margin-right': '20px'}, 200);
+				$element.animate({'margin-right': '20px'}, 200);
 			}
 
-			$title = $openItem.find('.editTitle').val();
-			$openItem.find('.editTitle').replaceWith('<div class="displayTitle">' + $title + '</div>');
+			title = $editTitle.val();
+			$editTitle.css('display', 'none');
+			$displayTitle.css('display', 'inline-block');
+			$displayTitle.html(title);
 		}
 	};
 
 	self.openItem = function(){
-		$originalHeight = '25px';
-		$listItem = $element;
-		$displayTitle = $element.find('.displayTitle');
-
 		// If we are not the edit box
-		if($listItem.hasClass('editBox') === false){
+		if($element.hasClass('editBox') === false){
 
 			// Close any open edit box
 			if($('.editBox')){
 				//closeEditBox();
 			}
 
-			if($listItem.css('height') === $originalHeight){
+			if($element.css('height') === originalHeight){
 				// Close all other list items
 				//closeOpenItem();
 
 				// Open this item
-				$listItem.animate({height: '90px'}, 200);
+				$element.animate({height: '90px'}, 200);
 
-				if($listItem.parent().attr('id') === 'incomes'){
-					$listItem.animate({'margin-left': '100px'}, 200);
+				if(parentList.getId() === '#incomes'){
+					$element.animate({'margin-left': '100px'}, 200);
 				}
 				else{
-					$listItem.animate({'margin-right': '100px'}, 200);
+					$element.animate({'margin-right': '100px'}, 200);
 				}
 
-				$title = $displayTitle.html();
-				$displayTitle.replaceWith('<input class="editTitle" value="' + $title + '">');
-				$('.editTitle').focus();
+				$displayTitle.css('display', 'none');
+				$editTitle.css('display', 'inline-block');
+				$editTitle.focus();
 			}
 		}
 	};
