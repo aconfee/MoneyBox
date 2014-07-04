@@ -1,28 +1,47 @@
-/*
-function EditBox(){
-	this.$element = null;
-
-	// Return the web element
-	this.getElement = function(){
-		if(this.$element === null){
-			this.$element = $('.editBox');
-		}
-		
-		return this.$element;
-	};
-
-	this.open = function(id){
-		this.getElement().css('display', 'block');
-		this.getElement().css('position', 'relative');
-	};
-
-	this.close = function(id){
-	
-	};
-};
-*/
 Array.prototype.remove = function(index){
 	this.splice(index, 1);
+};
+
+function EditBox(listObject){
+	var self = this;
+	var parentList = listObject;
+	var $element = listObject.getElement().find('.editBox');
+
+	var $title = $element.find('input[name=newTitle]');
+	var $lowAmount = $element.find('input[name=lowEndAmount]');
+	var $highAmount = $element.find('input[name=highEndAmount]');
+
+	self.getTitle = function(){
+		return $title.val();
+	};
+
+	self.getLowAmount = function(){
+		return $lowAmount.val();
+	};
+
+	self.getHighAmount = function(){
+		return $highAmount.val();
+	};
+
+	self.clear = function(){
+		$title.val('Title');
+		$lowAmount.val('$ Low');
+		$highAmount.val('$ High');
+	};
+
+	// Return the web element
+	self.getElement = function(){		
+		return $element;
+	};
+
+	self.open = function(id){
+		$element.css('display', 'block');
+	};
+
+	self.close = function(id){
+		self.clear();
+		$element.css('display', 'none');
+	};
 };
 
 function List(id){
@@ -36,22 +55,6 @@ function List(id){
 	var $addButton = $element.find('.addButton');
 	var $cancelButton = $element.find('.cancelButton');
 	var $saveButton = $element.find('.saveButton');
-
-	// Attach events
-	$addButton.click(function(){
-		self.newListItem();
-	});
-
-	$cancelButton.click(function(){
-		self.cancelNewItem();
-	});
-
-
-	$saveButton.click(function(){
-		self.saveListItem();
-	});
-
-
 
 	self.getAddButton = function(){
 		return $addButton;
@@ -73,49 +76,47 @@ function List(id){
 		return id;
 	};
 
+	// The list's getId needs to be defined for this constructor
+	var editBox = new EditBox(self);
+
+	// Attach events
+	$addButton.click(function(){
+		self.newListItem();
+	});
+
+	$cancelButton.click(function(){
+		self.closeEditBox();
+	});
+
+
+	$saveButton.click(function(){
+		self.saveListItem();
+	});
+
 	self.newListItem = function(){
 		//closeOpenItem();
 
-		// Define templates for creation
-		// TEMPORARY having to specify display=inline block is bad. the edit box should be separate and the css needs 
-		// to be modularized. 
-		$editBoxTemplate = '<div class="editBox">' +	
-							'<h1>NEW ITEM</h1>' + 
-							   	'<input type="text" class="editTitle" style="display:inline-block" value="Title" name="newTitle">' +
-								'<input type="text" class="editMoney" value="$ Low" name="lowEndAmount">' +
-								'<input type="text" class="editMoney" value="$ High" name="highEndAmount">' +
-							'</div>';
-
 		// Create the edit box
-		$addButton.before($editBoxTemplate);
+		editBox.open();
 		$addButton.css('display', 'none');
 		$cancelButton.css('display', 'inline-block');
 		$saveButton.css('display', 'inline-block');
 	};
 
 	self.saveListItem = function(){
-		// Edit box with new info
-		$editBox = $('.editBox');
-
-		// New info from the edit box
-		var title = $('input[name=newTitle]').val();
-		var low = $('input[name=lowEndAmount]').val();
-		var high = $('input[name=highEndAmount]').val();
-
 		// Create the list item
-		var newItem = new ListItem(self, listItems.length, $editBox, title, low, high);
+		var newItem = new ListItem(self, listItems.length, editBox.getElement(), editBox.getTitle(), editBox.getLowAmount(), editBox.getHighAmount());
 		listItems.push(newItem);
 
 		// Close
-		// TEMPORARY!!!!!!!! USE EDIT BOX ITEM
-		self.cancelNewItem();
+		self.closeEditBox();
 
 		// Refresh to display updated amount
 		refreshIncome();
 	};
 
-	self.cancelNewItem = function(){
-		$('.editBox').remove();
+	self.closeEditBox = function(){
+		editBox.close();
 		$addButton.css('display', 'inline-block');
 		$cancelButton.css('display', 'none');
 		$saveButton.css('display', 'none');
