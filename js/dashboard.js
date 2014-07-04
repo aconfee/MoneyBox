@@ -1,6 +1,8 @@
-Array.prototype.remove = function(index){
-	this.splice(index, 1);
-};
+(function(){
+	Array.prototype.remove = function(index){
+		this.splice(index, 1);
+	};
+})();
 
 function EditBox(listObject){
 	var self = this;
@@ -29,6 +31,39 @@ function EditBox(listObject){
 		$highAmount.val('$ High');
 	};
 
+	self.sanitize = function(){
+		var errorFree = true;
+		if(sanitizeTitle(self.getTitle())){
+			$title.css('border', '0');
+		}
+		else{
+			$title.css('border', '2px solid #ef6d76'); // red border
+			errorFree = false;
+		}
+
+		var value = sanitizeCurrency(self.getLowAmount());
+		if(value !== null){
+			$lowAmount.val(value);
+			$lowAmount.css('border', '0');
+		}
+		else{
+			$lowAmount.css('border', '2px solid #ef6d76'); // red border
+			errorFree = false;
+		}
+
+		value = sanitizeCurrency(self.getHighAmount());
+		if(value !== null){
+			$highAmount.val(value);
+			$highAmount.css('border', '0');
+		}
+		else{
+			$highAmount.css('border', '2px solid #ef6d76'); // red border
+			errorFree = false;
+		}
+
+		return errorFree;
+	}
+
 	// Return the web element
 	self.getElement = function(){		
 		return $element;
@@ -41,6 +76,9 @@ function EditBox(listObject){
 	self.close = function(id){
 		self.clear();
 		$element.css('display', 'none');
+		$title.css('border', '0');
+		$lowAmount.css('border', '0');
+		$highAmount.css('border', '0');
 	};
 };
 
@@ -96,7 +134,6 @@ function List(id){
 	self.newListItem = function(){
 		//closeOpenItem();
 
-		// Create the edit box
 		editBox.open();
 		$addButton.css('display', 'none');
 		$cancelButton.css('display', 'inline-block');
@@ -104,6 +141,10 @@ function List(id){
 	};
 
 	self.saveListItem = function(){
+		if(!editBox.sanitize()){
+			return;
+		}
+
 		// Create the list item
 		var newItem = new ListItem(self, listItems.length, editBox.getElement(), editBox.getTitle(), editBox.getLowAmount(), editBox.getHighAmount());
 		listItems.push(newItem);

@@ -88,6 +88,8 @@ input{
 	font-family: 'Helvetica';
 	font-style:italic;
 
+	border-radius: 5px;
+
 	border:0;
 }
 
@@ -101,7 +103,7 @@ input{
 }
 
 .editMoney{
-	width:30%;
+	width:35%;
 
 	margin:10px 2px;
 	padding:5px;
