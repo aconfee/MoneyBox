@@ -7,14 +7,15 @@
 		<link rel='stylesheet' type='text/css' href='../css/lists.css' />
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type='text/javascript' src='../js/stats.js'></script>
 		<script type='text/javascript' src='../js/sanitize.js'></script>
 		<script type='text/javascript' src='../js/dashboard.js'></script>
+		<script type='text/javascript' src='../js/listItem.js'></script>
+		<script type='text/javascript' src='../js/editBox.js'></script>
+		<script type='text/javascript' src='../js/list.js'></script>
 		<script type='text/javascript' src='../js/onReady.js'></script>
 	</head>
 
 	<body>
-
 		<div id='headerWrap'>
 			<img id='logo' src='../resources/logo.png' />
 		</div>
@@ -22,7 +23,7 @@
 		<div id='contentWrap'>
 			<div id='incomes' class='infoTable'>
 				<div class='tableTitle'>INCOMES</div>
-				<div id='incomeTotal'></div>
+				<div class='listTotal green'></div>
 				<div class="editBox">	
 					<h1>NEW ITEM</h1>
 					<input type="text" maxlength="19" class="editTitle" style="display:inline-block" value="Title" name="newTitle">
@@ -40,7 +41,7 @@
 
 			<div id='expenses' class='infoTable'>
 				<div class='tableTitle'>EXPENSES</div>
-				<div id='expenseTotal'></div>
+				<div class='listTotal red'></div>
 				<div class="editBox">	
 					<h1>NEW ITEM</h1>
 					<input type="text" maxlength="19" class="editTitle" style="display:inline-block" value="Title" name="newTitle">

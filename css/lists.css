@@ -26,13 +26,12 @@
 	padding:20px 0 0 0;
 }
 
-#incomeTotal{
+.listTotal{
 	background-color:#dedede;
 
 	width:30%;
 
 	font-weight:bold;
-	color:green;
 	text-align:right;
 
 	display:inline-block;
@@ -42,20 +41,12 @@
 	padding:0;
 }
 
-#expenseTotal{
-	background-color:#dedede;
+.green{
+	color:green;
+}
 
-	width:30%;
-
-	font-weight:bold;
+.red{
 	color:red;
-	text-align:right;
-
-	display:inline-block;
-
-	margin:0;
-	border:0;
-	padding:0;
 }
 
 #incomes{

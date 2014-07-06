@@ -1,0 +1,12 @@
+{
+  "name": "MoneyBox",
+  "version": "0.0.1",
+  "description": "Easily view your real monthly income.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aconfee/MoneyBox.git"
+  },
+  "dependencies": {
+    "requirejs": "^2.1.14"
+  }
+}
