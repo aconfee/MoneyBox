@@ -10,6 +10,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script type='text/javascript' src='../js/sanitize.js'></script>
 		<script type='text/javascript' src='../js/list.js'></script>
+		<script type='text/javascript' src='../js/listItem.js'></script>
 	</head>
 
 	<body>
@@ -28,19 +29,19 @@
 				<div ng-repeat='item in listItems' ng-controller='ListItemController'>
 					<div class="listItem">
 						<div class="displayTitle" ng-click='toggleEditMode($index)' ng-show='!editMode'>{{ item.title }}</div>
-						<input class="editTitle" ng-model='item.title' ng-show='editMode'>
+						<input class="editTitle" placeholder='New Title' ng-model='item.title' ng-show='editMode'>
 						<img class="deleteButton" src="../resources/delete.png" ng-click='deleteItem($index)'></img> 
 						<br/><br/>
-						<input class="lowAmount editMoney" ng-model='item.price' ng-show='editMode'>
-						<img class="acceptButton" src="../resources/accept.png" ng-click='toggleEditMode();'></img>
+						<input class="lowAmount editMoney" placeholder='0' ng-model='item.price' ng-show='editMode'>
+						<img class="acceptButton" src="../resources/accept.png" ng-click='toggleEditMode($index);'></img>
 					</div>
 				</div>
 
 				<!-- Edit box -->
 				<div class="editBox" ng-show='createMode'>	
 					<h1>NEW ITEM</h1>
-					<input type="text" maxlength="19" class="editTitle" ng-model='newItem.title'>
-					<input type="text" class="editMoney" ng-model='newItem.price'>
+					<input type="text" placeholder='New Title' maxlength="19" class="editTitle" ng-model='newItem.title'>
+					<input type="text" placeholder='0' class="editMoney" ng-model='newItem.price'>
 				</div>
 
 				<div class='addButton' ng-click='toggleCreateMode()' ng-show='!createMode'>+ ADD</div>

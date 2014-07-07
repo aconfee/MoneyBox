@@ -23,7 +23,7 @@ function ListController($scope){
 
 		// Reset if just entering create mode
 		if($scope.createMode){
-			$scope.newItem = {title: 'Title', price: 0};
+			$scope.newItem = {title: '', price: 0};
 		}
 	};
 
@@ -39,35 +39,15 @@ function ListController($scope){
 	$scope.calculateTotal = function(){
 		$scope.total = 0;
 		for(var i = 0; i < $scope.listItems.length; ++i){
-			$scope.total += parseFloat($scope.listItems[i].price);
+			var value = parseFloat($scope.listItems[i].price);
+			if(isNaN(value) || typeof value === 'undefined'){
+				value = 0;
+			}
+
+			$scope.total += value;
 		}
 	};
 
-	$scope.$watch('listItems', $scope.calculateTotal);
+	$scope.$watch('listItems', $scope.calculateTotal, true);
 };
 
-function ListItemController($scope){
-	var self = this;
-	$scope.editMode = false;
-
-	$scope.toggleEditMode = function(index){
-		$scope.editMode = !$scope.editMode;
-
-		if($scope.editMode){
-			self.animateOpen(index);
-		} else{
-			self.animateClose(index);
-		}
-	};
-
-	self.animateOpen = function(index){
-		$element = $('.listItem').eq(index);
-		$element.animate({height: '90px'}, 200);
-		$element.animate({'margin-left': '100px'}, 200);
-	};
-
-	self.animateClose = function(index){
-		$element.animate({height: '25px'}, 200);
-		$element.animate({'margin-left': '20px'}, 200);
-	};
-};
