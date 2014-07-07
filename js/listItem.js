@@ -23,4 +23,4 @@ function ListItemController($scope){
 		$element.animate({height: '25px'}, 200);
 		$element.animate({'margin-left': '20px'}, 200);
 	};
-};
+}

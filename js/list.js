@@ -49,5 +49,5 @@ function ListController($scope){
 	};
 
 	$scope.$watch('listItems', $scope.calculateTotal, true);
-};
+}
 
