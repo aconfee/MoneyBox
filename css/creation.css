@@ -67,7 +67,7 @@
 
 	width:80%;
 
-	display:none;
+	display:block;
 
 	box-shadow: 2px 2px 5px #888888;
 	border-radius: 5px;
@@ -96,7 +96,7 @@ input{
 .editTitle{
 	width:80%;
 	
-	display:none;
+	display:inline-block;
 
 	margin:2px;
 	padding:5px;
@@ -152,7 +152,7 @@ input{
 	font-weight:bold;
 	color:#858784;
 
-	display: none;
+	display: inline-block;
 
 	margin:20px 0 10px 10px;
 	border:0;
@@ -173,7 +173,7 @@ input{
 	font-weight:bold;
 	color:#858784;
 
-	display: none;
+	display: inline-block;
 
 	margin:10px 0 10px 0;
 	border:0;

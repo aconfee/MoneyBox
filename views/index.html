@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
 	<head>
 		<link rel='stylesheet' type='text/css' href='../css/dashboard.css' />
 		<link rel='stylesheet' type='text/css' href='../css/creation.css' />
 		<link rel='stylesheet' type='text/css' href='../css/page.css' />
 		<link rel='stylesheet' type='text/css' href='../css/lists.css' />
 
+		<script src="../bower_components/angular/angular.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script type='text/javascript' src='../js/sanitize.js'></script>
-		<script type='text/javascript' src='../js/dashboard.js'></script>
-		<script type='text/javascript' src='../js/listItem.js'></script>
-		<script type='text/javascript' src='../js/editBox.js'></script>
 		<script type='text/javascript' src='../js/list.js'></script>
-		<script type='text/javascript' src='../js/onReady.js'></script>
 	</head>
 
 	<body>
@@ -21,36 +18,69 @@
 		</div>
 
 		<div id='contentWrap'>
-			<div id='incomes' class='infoTable'>
+
+			<!-- INCOMES -->
+			<div id='incomes' class='infoTable' ng-controller='ListController'>
 				<div class='tableTitle'>INCOMES</div>
-				<div class='listTotal green'></div>
-				<div class="editBox">	
-					<h1>NEW ITEM</h1>
-					<input type="text" maxlength="19" class="editTitle" style="display:inline-block" value="Title" name="newTitle">
-					<input type="text" maxlength="9" class="editMoney" value="$ Low" name="lowEndAmount">
-					<input type="text" maxlength="9" class="editMoney" value="$ High" name="highEndAmount">
-				</div>
-				<div class='addButton'>+ ADD</div>
-				<div class='cancelButton'>CANCEL</div>
-				<div class='saveButton'>SAVE</div>
-			</div>
+				<div class='listTotal green'>{{ total }}</div>
 
-			<div id='display'>REAL INCOME:
-				<div class='centerDisplay'></div>
-			</div>
-
-			<div id='expenses' class='infoTable'>
-				<div class='tableTitle'>EXPENSES</div>
-				<div class='listTotal red'></div>
-				<div class="editBox">	
-					<h1>NEW ITEM</h1>
-					<input type="text" maxlength="19" class="editTitle" style="display:inline-block" value="Title" name="newTitle">
-					<input type="text" maxlength="9" class="editMoney" value="$ Low" name="lowEndAmount">
-					<input type="text" maxlength="9" class="editMoney" value="$ High" name="highEndAmount">
+				<!-- List item template -->
+				<div ng-repeat='item in listItems' ng-controller='ListItemController'>
+					<div class="listItem">
+						<div class="displayTitle" ng-click='toggleEditMode($index)' ng-show='!editMode'>{{ item.title }}</div>
+						<input class="editTitle" ng-model='item.title' ng-show='editMode'>
+						<img class="deleteButton" src="../resources/delete.png" ng-click='deleteItem($index)'></img> 
+						<br/><br/>
+						<input class="lowAmount editMoney" ng-model='item.price' ng-show='editMode'>
+						<img class="acceptButton" src="../resources/accept.png" ng-click='toggleEditMode();'></img>
+					</div>
 				</div>
-				<div class='addButton'>+ ADD</div>
-				<div class='cancelButton'>CANCEL</div>
-				<div class='saveButton'>SAVE</div>
+
+				<!-- Edit box -->
+				<div class="editBox" ng-show='createMode'>	
+					<h1>NEW ITEM</h1>
+					<input type="text" maxlength="19" class="editTitle" ng-model='newItem.title'>
+					<input type="text" class="editMoney" ng-model='newItem.price'>
+				</div>
+
+				<div class='addButton' ng-click='toggleCreateMode()' ng-show='!createMode'>+ ADD</div>
+				<div class='cancelButton' ng-click='toggleCreateMode()' ng-show='createMode'>CANCEL</div>
+				<div class='saveButton' ng-click='saveListItem(); toggleCreateMode();' ng-show='createMode'>SAVE</div>
+			</div>
+		</div>
+
+		<!-- MAIN DISPLAY -->
+		<div id='display'>REAL INCOME:
+			<div class='centerDisplay'></div>
+		</div>
+
+		<!-- EXPENSES -->
+		<div id='expenses' class='infoTable' ng-controller='ListController'>
+				<div class='tableTitle'>INCOMES</div>
+				<div class='listTotal green'>{{ total }}</div>
+
+				<!-- List item template -->
+				<div ng-repeat='item in listItems' ng-controller='ListItemController'>
+					<div class="listItem">
+						<div class="displayTitle" ng-click='toggleEditMode($index)' ng-show='!editMode'>{{ item.title }}</div>
+						<input class="editTitle" ng-model='item.title' ng-show='editMode'>
+						<img class="deleteButton" src="../resources/delete.png" ng-click='deleteItem($index)'></img> 
+						<br/><br/>
+						<span>$</span><input class="lowAmount editMoney" ng-model='newItem.price' ng-show='editMode'>
+						<img class="acceptButton" src="../resources/accept.png" ng-click='toggleEditMode();'></img>
+					</div>
+				</div>
+
+				<!-- Edit box -->
+				<div class="editBox" ng-show='createMode'>	
+					<h1>NEW ITEM</h1>
+					<input type="text" maxlength="19" class="editTitle" ng-model='newItem.title'>
+					<input type="text" class="editMoney" ng-model='newItem.price'>
+				</div>
+
+				<div class='addButton' ng-click='toggleCreateMode()' ng-show='!createMode'>+ ADD</div>
+				<div class='cancelButton' ng-click='toggleCreateMode()' ng-show='createMode'>CANCEL</div>
+				<div class='saveButton' ng-click='saveListItem(); toggleCreateMode();' ng-show='createMode'>SAVE</div>
 			</div>
 		</div>
 

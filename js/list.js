@@ -4,133 +4,70 @@
 	};
 })();
 
-function List(id){
+function ListController($scope){
 	var self = this;
-	var total = 0;
-	var listItems = new Array();
-	var id = id; //#incomes or #expenses
-	self.values = {}; // Store all information
+	$scope.createMode = false;
+	$scope.total = 0;
 
-	// Initialize list's web elements.
-	var $element = $(id);
-	var $addButton = $element.find('.addButton');
-	var $cancelButton = $element.find('.cancelButton');
-	var $saveButton = $element.find('.saveButton');
+	$scope.newItem = {title: 'Title', price: 0};
 
-	self.getAddButton = function(){
-		return $addButton;
-	};
+	//var id = id; //#incomes or #expenses
+	$scope.listItems = [
+		{title: 'PaperG', price: 1500},
+		{title: 'GangsterG', price: 1500},
+		{title: 'OriginalG', price: 1500}
+	];
 
-	self.getCancelButton = function(){
-		return $cancelButton;
-	};
+	$scope.toggleCreateMode = function(){
+		$scope.createMode = !$scope.createMode;
 
-	self.getSaveButton = function(){
-		return $saveButton;
-	};
-
-	self.getElement = function(){
-		return $element;
-	};
-
-	self.getId = function(){
-		return id;
-	};
-
-	// The list's getId needs to be defined for this constructor
-	var editBox = new EditBox(self);
-
-	// Attach events
-	$addButton.click(function(){
-		self.newListItem();
-	});
-
-	$cancelButton.click(function(){
-		self.closeEditBox();
-	});
-
-
-	$saveButton.click(function(){
-		self.saveListItem();
-	});
-
-	self.newListItem = function(){
-		//closeOpenItem();
-		editBox.open();
-		$addButton.css('display', 'none');
-		$cancelButton.css('display', 'inline-block');
-		$saveButton.css('display', 'inline-block');
-	};
-
-	self.saveListItem = function(){
-		if(!editBox.sanitize()){
-			return;
+		// Reset if just entering create mode
+		if($scope.createMode){
+			$scope.newItem = {title: 'Title', price: 0};
 		}
+	};
 
-		var newTitle = editBox.getTitle();
-		var newLow = editBox.getLowAmount();
-		var newHigh = editBox.getHighAmount();
+	$scope.saveListItem = function(){
+		$scope.listItems.push($scope.newItem);
+		$scope.newItem = {title: 'Title', price: 0};
+	};
 
-		if(!self.addValue(newTitle, newLow, newHigh)){
-			return false;
+	$scope.deleteItem = function(index){
+		$scope.listItems.remove(index);
+	};
+
+	$scope.calculateTotal = function(){
+		$scope.total = 0;
+		for(var i = 0; i < $scope.listItems.length; ++i){
+			$scope.total += parseFloat($scope.listItems[i].price);
 		}
-
-		// Create the list item
-		var newItem = new ListItem(self, listItems.length, editBox.getElement(), editBox.getTitle(), editBox.getLowAmount(), editBox.getHighAmount());
-		listItems.push(newItem);
-
-		self.closeEditBox();
-		self.refreshTotalDisplay();
 	};
 
-	self.closeEditBox = function(){
-		editBox.close();
-		$addButton.css('display', 'inline-block');
-		$cancelButton.css('display', 'none');
-		$saveButton.css('display', 'none');
-	};
+	$scope.$watch('listItems', $scope.calculateTotal);
+};
 
-	self.deleteItem = function(index){
-		listItems.remove(index);
-	};
+function ListItemController($scope){
+	var self = this;
+	$scope.editMode = false;
 
-	self.addValue = function(newTitle, newLow, newHigh){
-		if(self.values[newTitle]){
-			console.log('no duplicates allowed');
-			return false;
+	$scope.toggleEditMode = function(index){
+		$scope.editMode = !$scope.editMode;
+
+		if($scope.editMode){
+			self.animateOpen(index);
+		} else{
+			self.animateClose(index);
 		}
-
-		self.values[newTitle] = [parseInt(newLow.substring(1, newLow.length)), parseInt(newHigh.substring(1, newHigh.length))];
-		return true;
 	};
 
-	self.updateValue = function(newTitle, newLow, newHigh){
-		self.values[newTitle] = [parseInt(newLow.substring(1, newLow.length)), parseInt(newHigh.substring(1, newHigh.length))];
+	self.animateOpen = function(index){
+		$element = $('.listItem').eq(index);
+		$element.animate({height: '90px'}, 200);
+		$element.animate({'margin-left': '100px'}, 200);
 	};
 
-	self.deleteValue = function(title){
-		delete self.values[title];
+	self.animateClose = function(index){
+		$element.animate({height: '25px'}, 200);
+		$element.animate({'margin-left': '20px'}, 200);
 	};
-
-	self.lowAmount = function(){
-		var lowAmountTotal = 0;
-		for(var index in self.values){
-			lowAmountTotal += self.values[index][0];
-		}
-
-		return lowAmountTotal;
-	}
-
-	self.highAmount = function(){
-		var highAmountTotal = 0;
-		for(var index in self.values){
-			highAmountTotal += self.values[index][0];
-		}
-
-		return highAmountTotal;
-	}
-
-	self.refreshTotalDisplay = function(){
-		$element.find('.listTotal').html('$' + self.lowAmount().toString());
-	}
 };
