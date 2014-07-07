@@ -1,3 +1,5 @@
 README
 
-Make mo monaye
+Setup:
+	Install Dependencies
+	run npm install and bower install
